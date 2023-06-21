@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { PURGE } from 'redux-persist'
 
@@ -16,21 +17,23 @@ export const counterSlice = createSlice({
   name: 'counter',
   initialState,
   reducers: {
-    increment: (state) => {
+    increment: (state)=>{
       state.value += 1
-      state.text = `counter ${state.value}`
+      state.text = `counter ${state.value}`      
     },
     decrement: (state) => {
       state.value -= 1
-      state.text = `counter ${state.value}`
+      state.text = `counter ${state.value}`    
     },
     incrementByAmount: (state, action: PayloadAction<number>) => {
-      state.value += action.payload
+      //state.value += action.payload      
     },
   },
   extraReducers(builder) {//This is especially helpful when you are looking to clear persisted state on a dispatched logout action
     builder.addCase(PURGE, (state) => {
-      //customEntityAdapter.removeAll(state);
+      // or storage.remove("root")
+      AsyncStorage.removeItem('persist:root')
+      return initialState;
   });
   },
 })

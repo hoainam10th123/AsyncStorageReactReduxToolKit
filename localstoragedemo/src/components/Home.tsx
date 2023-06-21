@@ -3,7 +3,7 @@ import {
     Text,
     View,
 } from 'react-native';
-import { RootState } from '../redux/store';
+import { RootState, persistor } from '../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { increment } from '../redux/Slices/counterSlice';
 
@@ -15,6 +15,7 @@ export default function Home() {
             <Text style={{ fontSize: 50 }}>{data.value}</Text>
             <Text style={{ fontSize: 50 }}>{data.text}</Text>
             <Button title='click' onPress={() => dispatch(increment())} />
+            <Button title='clear' onPress={() => persistor.purge()} />
         </View>
     )
 }
